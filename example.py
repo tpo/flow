@@ -4,15 +4,13 @@ from tkinter import *
 size = 15
 gap = 5
 columns = 25
-rows = 7
 
 downspace = 40  # space for the buttons below the animation
 screenwidth = columns*size + (columns-2)*gap
-screenheight = rows*size + rows*gap + downspace
+screenheight = size + gap + downspace
 
 color = "sky blue"
-xspeed = [2, 3, 4, 5, 4, 3, 2]  # list for the speeds of the particle rows
-
+xspeed = 2
 
 class Animation:
     """Class for the animation and buttons"""
@@ -29,7 +27,6 @@ class Animation:
 
         self.root.title("Laminar flow in a pipe")
         self.canvas.create_line(0, gap, screenwidth, gap, width=2)
-        self.canvas.create_line(0, rows*size + (rows+2)*gap, screenwidth, rows*size + (rows+2)*gap, width=2)
 
         self.particlelist = []
 
@@ -81,16 +78,14 @@ class Animation:
         """
 
         ypos = 10
-        for i in range(rows):
-            xpos = 0
-            xlist = []
+        xpos = 0
+        xlist = []
 
-            for t in range(columns):
-                xlist.append(Particle(self.canvas, xpos, ypos, color, xspeed[i]))
-                xpos += size + gap
+        for t in range(columns):
+            xlist.append(Particle(self.canvas, xpos, ypos, color, xspeed))
+            xpos += size + gap
 
-            self.particlelist.append(xlist)
-            ypos += size + gap
+        self.particlelist.append(xlist)
 
 
     def update(self):
