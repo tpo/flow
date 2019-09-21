@@ -2,8 +2,6 @@
 # by Putzikki
 from tkinter import *
 
-columns = 25
-
 screenwidth = 200
 screenheight = 200
 
@@ -15,7 +13,7 @@ class Animation:
     def __init__(self):
         """
         Creates the canvas, lines, buttons and runs the mainloop of the tkinter window
-        self.pipelist is a list for the rows of pipes
+        self.objectlist is a list for the rows of pipes
         """
 
         self.root = Tk()
@@ -24,7 +22,7 @@ class Animation:
 
         self.root.title("Laminar flow in a pipe")
 
-        self.pipelist = []
+        self.objectlist = []
 
         self.stop_animation = False
         self.start = Button(self.root, text="Start animation", command=self.start_anim)
@@ -56,30 +54,18 @@ class Animation:
         self.stop.configure(state=DISABLED)
         self.update()
 
-        for i in range(len(self.pipelist)):
-            xlist = self.pipelist[i]
-            for pipe in xlist:
-                pipe.delete()
-            self.pipelist[i] = []
-
-        self.init()
-
 
     def init(self):
         """
-        Creates lists of pipes and appends them to self.pipelist
+        Creates connected machines and appends them to self.objectlist
         """
 
-        x0 = 0
-        y0 = 10
-        xlist = []
+        self.objectlist = []
+        self.objectlist.append(Machine(self.canvas,  0, 0, 10, 10, "red"   ))
+        self.objectlist.append(Machine(self.canvas, 20, 0, 30, 10, "green" ))
 
-        for t in range(columns):
-            xlist.append(Pipe(self.canvas, x0, y0,
-                                           x0 + screenwidth,
-                                           y0 + screenheight, color))
-
-        self.pipelist.append(xlist)
+        self.objectlist.append(Pipe(self.canvas, 10, 5,
+                                                 20, 5, color))
 
 
     def update(self):
@@ -91,10 +77,8 @@ class Animation:
         t = 20
 
         if self.stop_animation == False:
-            for i in range(len(self.pipelist)):
-                xlist = self.pipelist[i]
-                for pipe in xlist:
-                    pipe.transport()
+            for o in self.objectlist:
+                o.animate()
 
             self.canvas.after(t, self.update)
 
@@ -118,7 +102,7 @@ class Pipe():
         self.dashoffset = 0
 
 
-    def transport(self):
+    def animate(self):
         """
         Function for moving the "contents of the pipe.
         """
@@ -131,5 +115,33 @@ class Pipe():
         """Function for deleting of the pipe"""
 
         self.canvas.delete(self.line)
+
+class Machine():
+    """
+    Class for machines
+
+    Parameters:
+        * canvas: canvas from the class "Animation"
+        * x0, y0: top left     machine coordinate
+        * x1, y1: bottom right machine coordinate
+        * color: color of the machine
+    """
+
+
+    def __init__(self, canvas, x0, y0, x1, y1, color):
+        self.canvas = canvas
+        self.rectangle = self.canvas.create_rectangle(x0, y0, x1, y1, fill=color)
+
+
+    def animate(self):
+        """
+        Function for animating of the machine
+        """
+
+
+    def delete(self):
+        """Function for deleting of the pipe"""
+
+        self.canvas.delete(self.rectangle)
 
 Animation()
