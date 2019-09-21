@@ -18,7 +18,7 @@ class Animation:
     def __init__(self):
         """
         Creates the canvas, lines, buttons and runs the mainloop of the tkinter window
-        self.particlelist is a list for the rows of particles
+        self.pipelist is a list for the rows of pipes
         """
 
         self.root = Tk()
@@ -26,9 +26,9 @@ class Animation:
         self.canvas.pack()
 
         self.root.title("Laminar flow in a pipe")
-        self.canvas.create_line(0, gap, screenwidth, gap, width=2)
+        #self.canvas.create_line(0, gap, screenwidth, gap, width=2)
 
-        self.particlelist = []
+        self.pipelist = []
 
         self.stop_animation = False
         self.start = Button(self.root, text="Start animation", command=self.start_anim)
@@ -51,8 +51,8 @@ class Animation:
 
     def stop_anim(self):
         """
-        Stops the animation and deletes the particles
-        Runs the function init to draw new particles to the beginning positions
+        Stops the animation and deletes the pipes
+        Runs the function init to draw new pipes to the beginning positions
         """
 
         self.stop_animation = True
@@ -60,21 +60,21 @@ class Animation:
         self.stop.configure(state=DISABLED)
         self.update()
 
-        for i in range(len(self.particlelist)):
-            xlist = self.particlelist[i]
-            for particle in xlist:
-                particle.delete()
-            self.particlelist[i] = []
+        for i in range(len(self.pipelist)):
+            xlist = self.pipelist[i]
+            for pipe in xlist:
+                pipe.delete()
+            self.pipelist[i] = []
 
         self.init()
 
 
     def init(self):
         """
-        Creates lists of particle rows and appends them to self.particlelist
+        Creates lists of pipe rows and appends them to self.pipelist
 
-            * ypos: vertical postition of the particle
-            * xpos: horizontal position of the particle
+            * ypos: vertical postition of the pipe
+            * xpos: horizontal position of the pipe
         """
 
         ypos = 10
@@ -82,10 +82,10 @@ class Animation:
         xlist = []
 
         for t in range(columns):
-            xlist.append(Particle(self.canvas, xpos, ypos, color, xspeed))
+            xlist.append(Pipe(self.canvas, xpos, ypos, color, xspeed))
             xpos += size + gap
 
-        self.particlelist.append(xlist)
+        self.pipelist.append(xlist)
 
 
     def update(self):
@@ -97,18 +97,18 @@ class Animation:
         t = 20
 
         if self.stop_animation == False:
-            for i in range(len(self.particlelist)):
-                xlist = self.particlelist[i]
-                for particle in xlist:
-                    particle.move()
+            for i in range(len(self.pipelist)):
+                xlist = self.pipelist[i]
+                for pipe in xlist:
+                    pipe.move()
 
             self.canvas.after(t, self.update)
 
 
 
-class Particle():
+class Pipe():
     """
-    Class for particles
+    Class for pipes
 
     Parameters:
         * canvas: canvas from the class "Animation"
