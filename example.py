@@ -10,7 +10,7 @@ screenwidth = columns*size + (columns-2)*gap
 screenheight = size + gap + downspace
 
 color = "sky blue"
-xspeed = 2
+xspeed = 1
 
 class Animation:
     """Class for the animation and buttons"""
