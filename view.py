@@ -5,8 +5,6 @@ from tkinter import *
 screenwidth = 200
 screenheight = 200
 
-color = "blue"
-
 class Animation:
     """Class for the animation and buttons"""
 
@@ -64,8 +62,7 @@ class Animation:
         self.objectlist.append(Machine(self.canvas,  0, 0, 10, 10, "red"   ))
         self.objectlist.append(Machine(self.canvas, 20, 0, 30, 10, "green" ))
 
-        self.objectlist.append(Pipe(self.canvas, 10, 5,
-                                                 20, 5, color))
+        self.objectlist.append(Pipe(   self.canvas, 10, 5, 20,  5, "blue"  ))
 
 
     def update(self):
