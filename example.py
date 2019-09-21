@@ -121,7 +121,7 @@ class Particle():
 
     def __init__(self, canvas, xpos, ypos, color, xspeed):
         self.canvas = canvas
-        self.shape = self.canvas.create_oval(xpos, ypos, xpos+size, ypos+size, fill=color)
+        self.shape = self.canvas.create_line(xpos, ypos, xpos+size, ypos, fill=color)
         self.xspeed = xspeed
 
 
