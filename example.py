@@ -10,7 +10,6 @@ screenwidth = columns*size + (columns-2)*gap
 screenheight = size + gap + downspace
 
 color = "sky blue"
-xspeed = 1
 
 class Animation:
     """Class for the animation and buttons"""
@@ -26,7 +25,6 @@ class Animation:
         self.canvas.pack()
 
         self.root.title("Laminar flow in a pipe")
-        #self.canvas.create_line(0, gap, screenwidth, gap, width=2)
 
         self.pipelist = []
 
@@ -71,19 +69,17 @@ class Animation:
 
     def init(self):
         """
-        Creates lists of pipe rows and appends them to self.pipelist
-
-            * ypos: vertical postition of the pipe
-            * xpos: horizontal position of the pipe
+        Creates lists of pipes and appends them to self.pipelist
         """
 
-        ypos = 10
-        xpos = 0
+        x0 = 0
+        y0 = 10
         xlist = []
 
         for t in range(columns):
-            xlist.append(Pipe(self.canvas, xpos, ypos, color, xspeed))
-            xpos += size + gap
+            xlist.append(Pipe(self.canvas, x0, y0,
+                                           x0 + screenwidth,
+                                           y0 + screenheight, color))
 
         self.pipelist.append(xlist)
 
@@ -100,7 +96,7 @@ class Animation:
             for i in range(len(self.pipelist)):
                 xlist = self.pipelist[i]
                 for pipe in xlist:
-                    pipe.move()
+                    pipe.transport()
 
             self.canvas.after(t, self.update)
 
@@ -112,33 +108,25 @@ class Pipe():
 
     Parameters:
         * canvas: canvas from the class "Animation"
-        * xpos: x coordinate for creation of the shape
-        * ypos: y coordinate for creation of the shape
+        * x0, y0: start coordinate for the pipe
+        * x1, y1: end   coordinate for the pipe
         * color: fill color of the shape
-        * xspeed: speed of the shape to the horizontal direction
     """
 
 
-    def __init__(self, canvas, xpos, ypos, color, xspeed):
+    def __init__(self, canvas, x0, y0, x1, y1, color):
         self.canvas = canvas
-        self.shape = self.canvas.create_line(xpos, ypos, xpos+size, ypos, fill=color)
-        self.xspeed = xspeed
+        self.shape = self.canvas.create_line(x0, y0, x1, y1, fill=color, dash=[4,4])
+        self.dashoffset = 0
 
 
-    def move(self):
+    def transport(self):
         """
-        Function for moving the shape.
-
-            * "pos" gives a vector of position [x0, y0, x1, y1] where 0 is the left upper corner
-              and 1 is the right down corner of the shape
+        Function for moving the "contents of the pipe.
         """
+        self.dashoffset += 0.5
+        self.canvas.itemconfig(self.shape, dashoffset=self.dashoffset)
 
-        self.canvas.move(self.shape, self.xspeed, 0)
-        pos = self.canvas.coords(self.shape)
-
-        if pos[0] >= screenwidth:     # returning the shape to the left side of the screen
-            overlap = (pos[0] - screenwidth)
-            self.canvas.coords(self.shape, gap-size+overlap, pos[1], gap+overlap, pos[3])
 
 
     def delete(self):
