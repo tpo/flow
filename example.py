@@ -1,13 +1,10 @@
 # from https://codereview.stackexchange.com/questions/181401/laminar-flow-in-a-pipe-animation-using-tkinter
 from tkinter import *
 
-size = 15
-gap = 5
 columns = 25
 
-downspace = 40  # space for the buttons below the animation
-screenwidth = columns*size + (columns-2)*gap
-screenheight = size + gap + downspace
+screenwidth = 200
+screenheight = 200
 
 color = "blue"
 
