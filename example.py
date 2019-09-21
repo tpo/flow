@@ -9,7 +9,7 @@ downspace = 40  # space for the buttons below the animation
 screenwidth = columns*size + (columns-2)*gap
 screenheight = size + gap + downspace
 
-color = "sky blue"
+color = "blue"
 
 class Animation:
     """Class for the animation and buttons"""
@@ -110,13 +110,13 @@ class Pipe():
         * canvas: canvas from the class "Animation"
         * x0, y0: start coordinate for the pipe
         * x1, y1: end   coordinate for the pipe
-        * color: fill color of the shape
+        * color: color of fluid in the pipe
     """
 
 
     def __init__(self, canvas, x0, y0, x1, y1, color):
         self.canvas = canvas
-        self.shape = self.canvas.create_line(x0, y0, x1, y1, fill=color, dash=[4,4])
+        self.line = self.canvas.create_line(x0, y0, x1, y1, fill=color, dash=[4,4], width=2)
         self.dashoffset = 0
 
 
@@ -125,13 +125,13 @@ class Pipe():
         Function for moving the "contents of the pipe.
         """
         self.dashoffset += 0.5
-        self.canvas.itemconfig(self.shape, dashoffset=self.dashoffset)
+        self.canvas.itemconfig(self.line, dashoffset=self.dashoffset)
 
 
 
     def delete(self):
-        """Function for deleting the shape"""
+        """Function for deleting of the pipe"""
 
-        self.canvas.delete(self.shape)
+        self.canvas.delete(self.line)
 
 Animation()
