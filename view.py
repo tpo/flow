@@ -59,10 +59,10 @@ class Animation:
         """
 
         self.objectlist = []
-        self.objectlist.append(Machine(self.canvas,  0, 0, 10, 10, "red"   ))
-        self.objectlist.append(Machine(self.canvas, 20, 0, 30, 10, "green" ))
+        self.objectlist.append(Machine(self.canvas,  1, 1, 11, 11, "red"   ))
+        self.objectlist.append(Machine(self.canvas, 51, 1, 61, 11, "green" ))
 
-        self.objectlist.append(Pipe(   self.canvas, 10, 5, 20,  5, "blue"  ))
+        self.objectlist.append(Pipe(   self.canvas, 11, 6, 51,  6, "blue"  ))
 
 
     def update(self):
