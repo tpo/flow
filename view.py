@@ -22,11 +22,13 @@ class Animation:
 
         self.objectlist = []
 
-        self.stop_animation = False
-        self.start = Button(self.root, text="Start animation", command=self.start_anim)
-        self.start.pack()
-        self.stop = Button(self.root, text="Stop animation", command=self.stop_anim)
-        self.stop.pack()
+        self.loop = False
+        self.start_button = Button(self.root, text="Start animation", command=self.start_anim)
+        self.stop_button  = Button(self.root, text="Stop animation", command=self.stop_anim)
+        self.step_button  = Button(self.root, text="Step",           command=self.step)
+        self.start_button.pack()
+        self.stop_button.pack()
+        self.step_button.pack()
 
         self.init()
         self.root.mainloop()
@@ -35,10 +37,11 @@ class Animation:
     def start_anim(self):
         """Starts the animation"""
 
-        self.stop_animation = False
-        self.start.configure(state=DISABLED)
-        self.stop.configure(state=NORMAL)
-        self.update()
+        self.loop = True
+        self.start_button.configure(state=DISABLED)
+        self.step_button.configure(state=DISABLED)
+        self.stop_button.configure(state=NORMAL)
+        self.step()
 
 
     def stop_anim(self):
@@ -47,10 +50,10 @@ class Animation:
         Runs the function init to draw new pipes to the beginning positions
         """
 
-        self.stop_animation = True
-        self.start.configure(state=NORMAL)
-        self.stop.configure(state=DISABLED)
-        self.update()
+        self.loop = False
+        self.start_button.configure(state=NORMAL)
+        self.stop_button.configure(state=DISABLED)
+        self.step_button.configure(state=NORMAL)
 
 
     def init(self):
@@ -65,19 +68,21 @@ class Animation:
         self.objectlist.append(Pipe(   self.canvas, 11, 6, 51,  6, "blue"  ))
 
 
-    def update(self):
+    def step(self):
         """
-        Updates the screen
+        Steps through one round of animation. If
+        `self.loop` is set to `True` then the next step is
+        scheduled automatically.
+
             * t: update interval in milliseconds
         """
-
         t = 20
 
-        if self.stop_animation == False:
-            for o in self.objectlist:
-                o.animate()
+        for o in self.objectlist:
+            o.animate()
 
-            self.canvas.after(t, self.update)
+        if self.loop == True:
+            self.canvas.after(t, self.step)
 
 
 
