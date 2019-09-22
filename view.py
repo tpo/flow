@@ -24,8 +24,8 @@ class Animation:
 
         self.loop = False
         self.start_button = Button(self.root, text="Start animation", command=self.start_anim)
-        self.stop_button  = Button(self.root, text="Stop animation", command=self.stop_anim)
-        self.step_button  = Button(self.root, text="Step",           command=self.step)
+        self.stop_button  = Button(self.root, text="Stop animation",  command=self.stop_anim)
+        self.step_button  = Button(self.root, text="Step",            command=self.step)
         self.start_button.pack()
         self.stop_button.pack()
         self.step_button.pack()
